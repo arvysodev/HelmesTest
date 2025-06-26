@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sectors</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        form { max-width: 500px; }
+        label { font-weight: bold; }
+        input[type=text], select { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; box-sizing: border-box; }
+        input[type=submit] { background-color: #007bff; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        input[type=submit]:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<h3>Please enter your name and pick the Sectors you are currently involved in.</h3>
+<br/>
+
+<form action="#" th:action="@{/}" th:object="${formData}" method="post">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+    <br/><br/>
+
+    <label for="sectors">Sectors:</label>
+    <select multiple size="10" id="sectors" th:field="*{selectedSectorIds}" required>
+        <option th:each="sector : *{allSectors}"
+                th:value="${sector.id}"
+                th:text="${'&#160;'.repeat(sector.depth * 4)} + ${sector.name}"
+                th:selected="${#sets.contains(formData.selectedSectorIds, sector.id)}">
+        </option>
+    </select>
+    <br/><br/>
+
+    <input type="checkbox" id="terms" th:field="*{agreedToTerms}" required>
+    <label for="terms">Agree to terms</label>
+    <br/><br/>
+
+    <input type="submit" value="Save">
+</form>
+
+</body>
+</html>
